@@ -15,16 +15,17 @@ jobs:
     environment: main
     outputs:
       image-tag: ${{ steps.set-image-tag.outputs.IMAGE_TAG }} 
-    steps:
+   steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-              # Configure AWS credentials
+        with:
+          fetch-depth: 0
+
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-          role-session-name: samplerolesession
-          aws-region: ${{ vars.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}   
 
 
       # TODO

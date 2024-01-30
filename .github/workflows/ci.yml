@@ -23,6 +23,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
+          role-session-name: samplerolesession
           aws-region: ${{ vars.AWS_REGION }}
 
 

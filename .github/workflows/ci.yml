@@ -6,16 +6,19 @@ on:
       image-tag:
         description: "image tag"
         value: ${{ jobs.build-and-test.outputs.image-tag }}
+name: ci
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     permissions:
       id-token: write # need this for OIDC
       contents: read
-    environment: main
+    environment: ${{ github.ref_name }} # need this to fetch variables and secrets
     outputs:
       image-tag: ${{ steps.set-image-tag.outputs.IMAGE_TAG }} 
-   steps:
+
+    steps:
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
@@ -25,8 +28,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-          aws-region: ${{ vars.AWS_REGION }}   
-
+          aws-region: ${{ vars.AWS_REGION }}         
 
       # TODO
       # Configure AWS credentials
